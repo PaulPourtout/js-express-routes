@@ -1,0 +1,90 @@
+body {
+	margin: 0;
+	color: rgb(45, 45, 45);
+}
+
+a {
+	text-decoration: none;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+navbar {
+	background-color: #838383;
+	display: flex;
+}
+navbar h1 {
+	padding: 10px 20px;
+	font-size: 1.2rem;
+}
+navbar a, navbar i {
+	color: rgb(255, 255, 255);
+}
+
+header {
+	text-align: center;
+}
+
+/* ============================== */
+/* HOME */
+.users-list {
+	padding: 20px;
+	list-style: none;
+}
+
+.users-list a {
+	background-color: rgb(221, 221, 221);
+	width: 100%;
+	display: block;
+	padding: 5px 15px;
+	margin: 1px 0;
+	color: rgb(33, 33, 33);
+	transition: 0.3s;
+}
+
+.users-list a:hover {
+	background-color: rgb(138, 138, 138);
+}
+
+/* ============================== */
+/* USER */
+.user-section {
+	padding: 20px;
+}
+
+.user-section h2 {
+	background-color: rgb(204, 204, 204);
+	padding: 20px;
+}
+
+.user-section .description {
+	width: 40%;
+	padding: 10px 20px;
+}
+
+
+
+/* ============================== */
+/* ERROR */
+.error {
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.error>div {
+	text-align: center;
+	padding: 50px;
+background-color: #d9d9d9;
+}
+
+
+footer {
+	background-color: #838383;
+	padding: 20px 0;
+	text-align: center;
+	color: #fff;
+}
