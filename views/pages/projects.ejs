@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<%- include('../partials/head.ejs') %>
+	</head>
+	<body>
+		<header>
+			<%- include('../partials/header.ejs') %>
+				<h2>Les projets de la promo :</h2>
+		</header>
+		<ul class="users-list">
+			<% projects.map(function(project) { %>
+				<li><a href= <%= `project/${project.id}` %>><%= project.name %></a></li>
+			<% }).join('') %>
+		</ul>
+
+		<footer>
+			<%- include('../partials/footer.ejs') %>
+		</footer>
+	</body>
+</html>

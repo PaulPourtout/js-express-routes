@@ -10,6 +10,9 @@ app.set('view engine', 'ejs');
 var users = require('./model/data.js');
 // var firebase = require('firebase');
 
+// Import data projects
+var projects = require('./model/projects.js');
+
 // Initialize Firebase
 // TODO: Replace with your project's customized code snippet
 // var config = {
@@ -43,12 +46,35 @@ app.use(express.static(__dirname + '/public'));
 app.get('/', function(req, res) {
 	// console.log(firebase.auth().user);
   res.render('./pages/index.ejs', {users: users});
-}).get('/user/:id', function(req, res) {
+})
+
+.get('/user/:id', function(req, res) {
   res.render('./pages/user.ejs', {
     user: users[req.params.id]
   });
-}).get('/*', function(req, res) {
+})
+
+.get('/projects', function(req, res) {
+	res.render('./pages/projects.ejs', { projects: projects });
+})
+
+.get('/project/:id', function(req ,res) {
+	const project = projects[req.params.id];
+	console.log(project);
+	console.log(project.userId);
+	const user = users[project.userId];
+	console.log(user);
+
+	res.render('./pages/project.ejs', {
+		project : project,
+		user: user
+	});
+})
+
+.get('/*', function(req, res) {
   res.status(404).render('./pages/error.ejs');
-}).listen(5000, function(req, res) {
+})
+
+.listen(5000, function(req, res) {
   console.log('The server is OK. Now you can connect to localhost:5000.');
 });
