@@ -103,6 +103,15 @@ header {
 	padding: 10px 30px;
 	border-radius: 3px;
 	display: inline-block;
+	transition: 0.3;
+	-webkit-transition: 0.3;
+	-moz-transition: 0.3;
+	-o-transition: 0.3;
+}
+
+.btn:hover {
+	background-color: #16bb43;
+
 }
 
 

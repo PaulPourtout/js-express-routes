@@ -43,7 +43,15 @@ app.use(express.static(__dirname + '/public'));
 // 	res.send('Ceci est une Home Page (même si elle n\'en a pas l\'air).');
 // })
 
-app.get('/', function(req, res) {
+// Building middleware
+var logError = function(err, req, res, next) {
+	if (err) console.log(err);
+	next();
+};
+
+app.use(logError)
+
+.get('/', function(req, res) {
 	// console.log(firebase.auth().user);
   res.render('./pages/index.ejs');
 })
