@@ -26,6 +26,13 @@ navbar a, navbar i {
 header {
 	text-align: center;
 }
+navbar{
+	justify-content: flex-start;
+	align-items: center;
+}
+ul{
+	list-style-type: none;
+}
 
 /* ============================== */
 /* HOME */
