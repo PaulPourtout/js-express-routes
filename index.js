@@ -1,7 +1,7 @@
 // Configure express
 var express = require('express');
 var app = express();
-
+var port = process.env.PORT || 5000;
 // Import EJS
 var ejs = require('ejs');
 app.set('view engine', 'ejs');
@@ -95,6 +95,6 @@ app.get('/', function(req, res) {
   res.status(404).render('./pages/error.ejs');
 })
 
-.listen(5000, function(req, res) {
+.listen(port, function(req, res) {
   console.log('The server is OK. Now you can connect to localhost:5000.');
 });
