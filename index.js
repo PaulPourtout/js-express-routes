@@ -8,30 +8,30 @@ app.set('view engine', 'ejs');
 
 // Import data users
 var users = require('./model/data.js');
-var firebase = require('firebase');
+// var firebase = require('firebase');
 
 // Initialize Firebase
 // TODO: Replace with your project's customized code snippet
-var config = {
-  apiKey: "AIzaSyA88-qaOkFbx0_1vLM6q3uLPJvYuFHdicE",
-  authDomain: "users-list-77a0a.firebaseapp.com",
-  databaseURL: "https://users-list-77a0a.firebaseio.com",
-  storageBucket: "users-list-77a0a.appspot.com"
-};
-firebase.initializeApp(config);
-
-var db = firebase.database();
-
-function writeUserData(userId, username, description) {
-  db.ref('users/' + userId).set({
-	  userId: userId,
-    username: username,
-	description: description
-  });
-}
+// var config = {
+//   apiKey: "AIzaSyA88-qaOkFbx0_1vLM6q3uLPJvYuFHdicE",
+//   authDomain: "users-list-77a0a.firebaseapp.com",
+//   databaseURL: "https://users-list-77a0a.firebaseio.com",
+//   storageBucket: "users-list-77a0a.appspot.com"
+// };
+// firebase.initializeApp(config);
+//
+// var db = firebase.database();
+//
+// function writeUserData(userId, username, description) {
+//   db.ref('users/' + userId).set({
+// 	  userId: userId,
+//     username: username,
+// 	description: description
+//   });
+// }
 // writeUserData(0 , 'michou', 'michou est le plus beau');
 
-db.ref('users').on('value', (snapshot) => console.log(snapshot.val()));
+// db.ref('users').on('value', (snapshot) => console.log(snapshot.val()));
 
 // Static route
 app.use(express.static(__dirname + '/public'));
