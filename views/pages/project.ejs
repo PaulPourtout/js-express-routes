@@ -11,11 +11,13 @@
 	</header>
 	<section class="user-section">
 		<h2><%= project.name %></h2>
-		<div class="description">
+		<div >
 			<h4>Voici les infos sur le projet :</h4>
 			<p>Github Url : <%= project.githubUrl %></p>
 			<p>Github repo : <%= project.githubRepo %></p>
 			<p>Auteur du projet : <a href= <%= `/user/${user.id}` %> ><%= user.firstName %></a></p>
+			<h4>Description :</h4>
+			<p><%= project.description %></p>
 		</div>
 
 	</section>
