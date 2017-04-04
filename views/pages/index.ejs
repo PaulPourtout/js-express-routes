@@ -8,11 +8,12 @@
 			<%- include('../partials/header.ejs') %>
 				<h2>Bienvenue sur le site de la meilleur promo de Simplon !</h2>
 		</header>
-		<ul class="users-list">
-			<% users.map(function(user) { %>
-				<li><a href= <%= `/user/${user.id}` %>><%= user.firstName %></a></li>
-			<% }).join('') %>
-		</ul>
+		<p>Sur ce site vous pourrez voir les projets de chacun, nos prouesses techniques et visuelles mais aussi la progression de tous durant notre formation.</p>
+
+		<p>
+			<a href="/users">Les apprenants</a>
+			<a href="/projects">Les projets</a>
+		</p>
 
 		<footer>
 			<%- include('../partials/footer.ejs') %>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<%- include('../partials/head.ejs') %>
+	</head>
+	<body>
+		<header>
+			<%- include('../partials/header.ejs') %>
+				<h2>Les apprenants de la promo 7 de Simplon Montreuil :</h2>
+		</header>
+		<ul class="users-list">
+			<% users.map(function(user) { %>
+				<li><a href= <%= `/user/${user.id}` %>><%= user.firstName %></a></li>
+			<% }).join('') %>
+		</ul>
+
+		<footer>
+			<%- include('../partials/footer.ejs') %>
+		</footer>
+	</body>
+</html>

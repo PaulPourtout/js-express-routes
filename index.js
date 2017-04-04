@@ -45,7 +45,11 @@ app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res) {
 	// console.log(firebase.auth().user);
-  res.render('./pages/index.ejs', {users: users});
+  res.render('./pages/index.ejs');
+})
+
+.get('/users', function(req ,res) {
+	res.render('./pages/users.ejs', {users: users});
 })
 
 .get('/user/:id', function(req, res) {
