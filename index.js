@@ -49,9 +49,28 @@ app.get('/', function(req, res) {
 })
 
 .get('/user/:id', function(req, res) {
-  res.render('./pages/user.ejs', {
-    user: users[req.params.id]
-  });
+	// Check if user exists
+	const user = users.find( function(item) {
+		return item.id === Number(req.params.id);
+	});
+
+	// If user existe
+	if (user) {
+	// Filter user projects in projects db
+	const projectsUser =
+		projects.filter(function(project){
+			return project.userId === user.id;
+		});
+	  // Call the user page
+	  res.render('./pages/user.ejs', {
+	    user: user,
+		projects: projectsUser
+	  });
+	}
+	// If user doesn't exists
+	else {
+		res.redirect('/error');
+	}
 })
 
 .get('/projects', function(req, res) {
@@ -60,10 +79,7 @@ app.get('/', function(req, res) {
 
 .get('/project/:id', function(req ,res) {
 	const project = projects[req.params.id];
-	console.log(project);
-	console.log(project.userId);
 	const user = users[project.userId];
-	console.log(user);
 
 	res.render('./pages/project.ejs', {
 		project : project,
