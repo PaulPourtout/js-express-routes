@@ -11,27 +11,39 @@ a {
 	box-sizing: border-box;
 }
 
+ul{
+	padding: 0;
+	list-style-type: none;
+}
+
+
+.bold {
+	font-weight: bold;
+}
+
+
+
+/* ==================================================== */
+/* NAVBAR */
+
 navbar {
-	background-color: #838383;
+	background-color:  #253b58;
 	display: flex;
 }
 navbar h1 {
-	padding: 10px 20px;
+	padding: 10px;
 	font-size: 1.2rem;
 }
 navbar a, navbar i {
 	color: rgb(255, 255, 255);
 }
 
-header {
-	text-align: center;
-}
 navbar{
 	justify-content: flex-start;
 	align-items: center;
 }
+
 navbar ul{
-	list-style-type: none;
 	display: flex;
 
 }
@@ -39,36 +51,101 @@ navbar ul li{
 	padding: 10px;
 }
 
+
+navbar li a {
+	transition: 0.3s;
+	position: relative;
+	padding: 10px;
+}
+navbar .underline {
+	position: absolute;
+	display: block;
+	bottom: 0;
+	left: 10px;
+	height: 2px;
+	background-color: #fff;
+	width: 0;
+	/*width: calc(100% - 10px);*/
+	transition: 0.3s ease-in-out;
+}
+
+navbar li a:hover .underline {
+	width: calc(100% - 20px);
+}
+
+header {
+	text-align: center;
+}
+
 /* ============================== */
 /* HOME */
-.users-list {
-	padding: 20px;
-	list-style: none;
+.home {
+	text-align: center;
+}
+
+.home p:first-of-type {
+	font-size: 1.3rem;
+	margin: 50px auto;
+}
+
+.home .logo {
+	background-image: url('https://fr.okfn.org/files/2014/02/PolygoneSIMPLON_NOIR_R.png');
+	width: 100%;
+	height: 150px;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	margin: 0;
+}
+
+.btn {
+	background-color: #38d062;
+	color: #fff;
+	padding: 10px 30px;
+	width: 200px;
+	margin-bottom: 10px;
+	border-radius: 3px;
+	display: inline-block;
+	transition: 0.3;
+	-webkit-transition: 0.3;
+	-moz-transition: 0.3;
+	-o-transition: 0.3;
+}
+
+.btn:hover {
+	background-color: #16bb43;
+}
+
+
+
+/* ============================== */
+/* USERS */
+
+section {
+	padding: 10%;
 }
 
 .users-list a {
-	background-color: rgb(221, 221, 221);
-	width: 100%;
+	width: 60%;
 	display: block;
 	padding: 5px 15px;
 	margin: 1px 0;
-	color: rgb(33, 33, 33);
+	color: #fff;
+	background-color: #38d062;
 	transition: 0.3s;
 }
 
-.users-list a:hover {
-	background-color: rgb(138, 138, 138);
+.users-list li a:hover {
+	background-color: rgb(91, 91, 91);
 }
 
 /* ============================== */
 /* USER */
-.user-section {
-	padding: 20px;
-}
 
 .user-section h2 {
 	background-color: rgb(204, 204, 204);
 	padding: 20px;
+	border-bottom: 5px solid #38d062;
 }
 
 .user-section .description {
@@ -95,7 +172,7 @@ background-color: #d9d9d9;
 
 
 footer {
-	background-color: #838383;
+	background-color: #253b58;
 	padding: 20px 0;
 	text-align: center;
 	color: #fff;

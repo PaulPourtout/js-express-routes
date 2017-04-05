@@ -6,14 +6,15 @@
 	<body>
 		<header>
 			<%- include('../partials/header.ejs') %>
-				<h2>Les projets de la promo :</h2>
 		</header>
-		<ul class="users-list">
-			<% projects.map(function(project) { %>
-				<li><a href= <%= `project/${project.id}` %>><%= project.name %></a></li>
-			<% }).join('') %>
-		</ul>
-
+		<section>
+			<h2>Les projets de la promo :</h2>
+			<ul class="users-list">
+				<% projects.map(function(project) { %>
+					<li><a href= <%= `project/${project.id}` %>><%= project.id %> - <%= project.name %></a></li>
+				<% }).join('') %>
+			</ul>
+		</section>
 		<footer>
 			<%- include('../partials/footer.ejs') %>
 		</footer>
