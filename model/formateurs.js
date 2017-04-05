@@ -16,3 +16,5 @@ const formateurs = [
 		prenom: 'Sara'
 	}
 ];
+
+module.exports = formateurs;

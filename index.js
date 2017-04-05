@@ -8,6 +8,7 @@ app.set('view engine', 'ejs');
 
 // Import data users
 var users = require('./model/data.js');
+var formateurs = require('./model/formateurs.js');
 // var firebase = require('firebase');
 
 // Import data projects
