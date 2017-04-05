@@ -1,6 +1,7 @@
 // Configure express
 var express = require('express');
 var app = express();
+var chalk = require('chalk');
 var port = process.env.PORT || 5000;
 // Import EJS
 var ejs = require('ejs');
@@ -39,25 +40,38 @@ var projects = require('./model/projects.js');
 
 // Static route
 app.use(express.static(__dirname + '/public'));
-// Defining routes
-// app.get('/', function(req, res) {
-// 	res.send('Ceci est une Home Page (même si elle n\'en a pas l\'air).');
-// })
 
 // Building middleware
-var logError = function(err, req, res, next) {
-	if (err) console.log(err);
-	res.status(500).send('error', {error: err});
+var logReqType = function(req, res, next) {
+	const dateNow = function now() {
+		const sec = new Date().getSeconds();
+		const min = new Date().getMinutes();
+		const hour = new Date().getHours();
+		const day = new Date().getDate();
+		const month = new Date().getMonth();
+		const year = new Date().getFullYear();
+		return `${hour}:${min}:${sec} ${day}/${month}/${year}`;
+	};
+	console.log(chalk.yellow('request method : ', req.method, ' url: ', req.url ,' at ', dateNow()));
+	next();
 };
 
 
-
-app.use(logError);
+// Calling Middleware
+app.use(logReqType);
 
 
 app.get('/', function(req, res) {
 	// console.log(firebase.auth().user);
   res.render('./pages/index.ejs');
+})
+
+.get('/formulaire', function(req, res) {
+	res.render('./pages/formulaire.ejs');
+})
+
+.post('/formulaire', function(req, res) {
+	res.redirect('/');
 })
 
 .get('/users', function(req ,res) {
@@ -87,6 +101,16 @@ app.get('/', function(req, res) {
 	else {
 		res.redirect('/error');
 	}
+})
+
+.get('/user/:id/projects', function(req, res) {
+	const userProjects = projects.filter(function(project) {
+		return project.userId === users[req.params.id].id;
+	});
+	res.render('./pages/user-projects.ejs', {
+		user: users[req.params.id],
+		projects: userProjects
+	});
 })
 
 .get('/projects', function(req, res) {
