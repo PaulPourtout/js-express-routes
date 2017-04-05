@@ -30,8 +30,13 @@ navbar{
 	justify-content: flex-start;
 	align-items: center;
 }
-ul{
+navbar ul{
 	list-style-type: none;
+	display: flex;
+
+}
+navbar ul li{
+	padding: 10px;
 }
 
 /* ============================== */
