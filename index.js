@@ -2,13 +2,18 @@
 var express = require('express');
 var app = express();
 var chalk = require('chalk');
+var isomorphicFetch = require('isomorphic-fetch');
+isomorphicFetch();
+var promise = require('es6-promise');
+promise.polyfill();
 var port = process.env.PORT || 5000;
 // Import EJS
 var ejs = require('ejs');
 app.set('view engine', 'ejs');
 
 // Import data users
-var users = require('./model/data.js');
+var User = require('./model/schemas/users');
+// var users = require('./model/data.js');
 var formateurs = require('./model/formateurs.js');
 // var firebase = require('firebase');
 
@@ -37,6 +42,7 @@ var projects = require('./model/projects.js');
 // writeUserData(0 , 'michou', 'michou est le plus beau');
 
 // db.ref('users').on('value', (snapshot) => console.log(snapshot.val()));
+
 
 // Static route
 app.use(express.static(__dirname + '/public'));
@@ -75,33 +81,69 @@ app.get('/', function(req, res) {
 })
 
 .get('/users', function(req ,res) {
-	res.render('./pages/users.ejs', {users: users});
+	User.findAll({})
+	.then(user => {
+		return user.map(use => {
+			console.log(use.firstName);
+			return use;
+		});
+	})
+	.then(users => {
+		res.render('./pages/users.ejs', {users: users});
+	});
 })
+
+// .get('/user/:id', function(req, res) {
+// 	// Check if user exists
+// 	const user = users.find( function(item) {
+// 		return item.id === Number(req.params.id);
+// 	});
+//
+// 	// If user existe
+// 	if (user) {
+// 	// Filter user projects in projects db
+// 	const projectsUser =
+// 		projects.filter(function(project){
+// 			return project.userId === user.id;
+// 		});
+// 	  // Call the user page
+// 	  res.render('./pages/user.ejs', {
+// 	    user: user,
+// 		projects: projectsUser
+// 	  });
+// 	}
+// 	// If user doesn't exists
+// 	else {
+// 		res.redirect('/error');
+// 	}
+// })
 
 .get('/user/:id', function(req, res) {
 	// Check if user exists
-	const user = users.find( function(item) {
-		return item.id === Number(req.params.id);
+	User.findAll({
+		where: {
+			id: req.params.id
+		}
+	})
+	.then(res => {
+		return res[0];
+	})
+	.then(user => {
+		// If user existe
+		if (user) {
+			// Call the user page
+			res.render('./pages/user.ejs', {
+				user: user
+			});
+		}
+		// If user doesn't exists
+		else {
+			res.redirect('/error');
+		}
 	});
 
-	// If user existe
-	if (user) {
-	// Filter user projects in projects db
-	const projectsUser =
-		projects.filter(function(project){
-			return project.userId === user.id;
-		});
-	  // Call the user page
-	  res.render('./pages/user.ejs', {
-	    user: user,
-		projects: projectsUser
-	  });
-	}
-	// If user doesn't exists
-	else {
-		res.redirect('/error');
-	}
 })
+
 
 .get('/user/:id/projects', function(req, res) {
 	const userProjects = projects.filter(function(project) {
@@ -124,6 +166,20 @@ app.get('/', function(req, res) {
 	res.render('./pages/project.ejs', {
 		project : project,
 		user: user
+	});
+})
+
+.get('/api/users', function(req, res) {
+	User.findAll({
+		// attributes: ["firstName"]
+	}).then(user => {
+		return user.map(use => {
+			console.log(use.firstName);
+			return use;
+		});
+	})
+	.then(users => {
+		res.json(users);
 	});
 })
 
