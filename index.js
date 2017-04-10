@@ -1,54 +1,25 @@
 // Configure express
-var express = require('express');
-var app = express();
-var chalk = require('chalk');
-var isomorphicFetch = require('isomorphic-fetch');
-isomorphicFetch();
-var promise = require('es6-promise');
+const express = require('express');
+const app = express();
+const chalk = require('chalk');
+const promise = require('es6-promise');
 promise.polyfill();
-var port = process.env.PORT || 5000;
+const errorHandler = require('error-handler');
+const port = process.env.PORT || 5000;
 // Import EJS
-var ejs = require('ejs');
+const ejs = require('ejs');
 app.set('view engine', 'ejs');
 
-// Import data users
-var User = require('./model/schemas/users');
-// var users = require('./model/data.js');
-var formateurs = require('./model/formateurs.js');
-// var firebase = require('firebase');
-
-// Import data projects
-var projects = require('./model/projects.js');
-
-// Initialize Firebase
-// TODO: Replace with your project's customized code snippet
-// var config = {
-//   apiKey: "AIzaSyA88-qaOkFbx0_1vLM6q3uLPJvYuFHdicE",
-//   authDomain: "users-list-77a0a.firebaseapp.com",
-//   databaseURL: "https://users-list-77a0a.firebaseio.com",
-//   storageBucket: "users-list-77a0a.appspot.com"
-// };
-// firebase.initializeApp(config);
-//
-// var db = firebase.database();
-//
-// function writeUserData(userId, username, description) {
-//   db.ref('users/' + userId).set({
-// 	  userId: userId,
-//     username: username,
-// 	description: description
-//   });
-// }
-// writeUserData(0 , 'michou', 'michou est le plus beau');
-
-// db.ref('users').on('value', (snapshot) => console.log(snapshot.val()));
-
+// Import data
+const users = require('./model/data.js');
+const formateurs = require('./model/formateurs.js');
+const projects = require('./model/projects.js');
 
 // Static route
 app.use(express.static(__dirname + '/public'));
 
 // Building middleware
-var logReqType = function(req, res, next) {
+const logReqType = function(req, res, next) {
 	const dateNow = function now() {
 		const sec = new Date().getSeconds();
 		const min = new Date().getMinutes();
@@ -58,14 +29,12 @@ var logReqType = function(req, res, next) {
 		const year = new Date().getFullYear();
 		return `${hour}:${min}:${sec} ${day}/${month}/${year}`;
 	};
-	console.log(chalk.yellow('request method : ', req.method, ' url: ', req.url ,' at ', dateNow()));
+	console.log(chalk.yellow('request method : ' + req.method + ' url: "' + req.url + '" at ' + dateNow()));
 	next();
 };
 
-
 // Calling Middleware
 app.use(logReqType);
-
 
 app.get('/', function(req, res) {
 	// console.log(firebase.auth().user);
@@ -81,67 +50,32 @@ app.get('/', function(req, res) {
 })
 
 .get('/users', function(req ,res) {
-	User.findAll({})
-	.then(user => {
-		return user.map(use => {
-			console.log(use.firstName);
-			return use;
-		});
-	})
-	.then(users => {
-		res.render('./pages/users.ejs', {users: users});
-	});
+	res.render('./pages/users.ejs', {users: users});
 })
 
-// .get('/user/:id', function(req, res) {
-// 	// Check if user exists
-// 	const user = users.find( function(item) {
-// 		return item.id === Number(req.params.id);
-// 	});
-//
-// 	// If user existe
-// 	if (user) {
-// 	// Filter user projects in projects db
-// 	const projectsUser =
-// 		projects.filter(function(project){
-// 			return project.userId === user.id;
-// 		});
-// 	  // Call the user page
-// 	  res.render('./pages/user.ejs', {
-// 	    user: user,
-// 		projects: projectsUser
-// 	  });
-// 	}
-// 	// If user doesn't exists
-// 	else {
-// 		res.redirect('/error');
-// 	}
-// })
-
 .get('/user/:id', function(req, res) {
-	// Check if user exists
-	User.findAll({
-		where: {
-			id: req.params.id
-		}
-	})
-	.then(res => {
-		return res[0];
-	})
-	.then(user => {
-		// If user existe
-		if (user) {
-			// Call the user page
-			res.render('./pages/user.ejs', {
-				user: user
-			});
-		}
-		// If user doesn't exists
-		else {
-			res.redirect('/error');
-		}
+		// Check if user exists
+	const user = users.find( function(item) {
+		return item.id === Number(req.params.id);
 	});
 
+	// If user existe
+	if (user) {
+	// Filter user projects in projects db
+	const projectsUser =
+		projects.filter(function(project){
+			return project.userId === user.id;
+		});
+	  // Call the user page
+	  res.render('./pages/user.ejs', {
+		user: user,
+		projects: projectsUser
+	  });
+	}
+	// If user doesn't exists
+	else {
+		res.redirect('/error');
+	}
 })
 
 
@@ -169,23 +103,10 @@ app.get('/', function(req, res) {
 	});
 })
 
-.get('/api/users', function(req, res) {
-	User.findAll({
-		// attributes: ["firstName"]
-	}).then(user => {
-		return user.map(use => {
-			console.log(use.firstName);
-			return use;
-		});
-	})
-	.then(users => {
-		res.json(users);
-	});
-})
-
-.get('/*', function(req, res) {
+.get('*', function(req, res) {
   res.status(404).render('./pages/error.ejs');
 })
+
 
 .listen(port, function(req, res) {
   console.log('The server is OK. Now you can connect to localhost:5000.');

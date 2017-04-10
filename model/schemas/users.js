@@ -13,7 +13,6 @@ const sequelize = new Sequelize('firstdb', 'simplonco', 'simplonco', {
 const User = sequelize.define('users', {
 	firstName: Sequelize.STRING,
 	age: Sequelize.REAL,
-
 	description: Sequelize.TEXT
 });
 
