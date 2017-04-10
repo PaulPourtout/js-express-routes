@@ -53,6 +53,14 @@ app.get('/', function(req, res) {
 	res.render('./pages/users.ejs', {users: users});
 })
 
+
+.get('/formateurs', function(req, res){
+  res.render('./pages/formateurs.ejs', {teachers: formateurs});
+})
+.get('/info-formateur/:id', function(req, res) {
+	res.render('./pages/info-formateur.ejs', {teacher: formateurs[req.params.id]});
+})
+
 .get('/user/:id', function(req, res) {
 		// Check if user exists
 	const user = users.find( function(item) {

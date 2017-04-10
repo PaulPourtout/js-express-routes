@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head.ejs') %>
+</head>
+<body>
+  <header>
+    <%- include('../partials/header.ejs') %>
+  </header>
+  <section class="formateurs">
+    <p>le suivant sont le nom de notres formateurs de simplon</p>
+    <% teachers.map(function(teacher){ %>
+      <a href= <%= "/info-formateur/" + teacher.id %>><p><%= teacher.prenom %></p></a>
+    <% }) %>
+  </section>
+  <footer>
+    <%- include('../partials/footer.ejs') %>
+  </footer>
+</body>
+</html>
