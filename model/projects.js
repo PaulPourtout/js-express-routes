@@ -18,7 +18,7 @@ const projects = [
  },
  {
     id: 2,
-    userId: 0, // le repo doit correspondre un utilisateur du tableau 'users'
+    userId: 6, // le repo doit correspondre un utilisateur du tableau 'users'
 	name: 'Pomodoro',
     githubUrl : 'https://github.com/PaulPourtout/pomodoro',
     githubRepo : 'Pomodoro',
@@ -26,7 +26,7 @@ const projects = [
 },
 {
    id: 3,
-   userId: 3, // le repo doit correspondre un utilisateur du tableau 'users'
+   userId: 8, // le repo doit correspondre un utilisateur du tableau 'users'
    name: 'JS Calendar',
    githubUrl : 'https://github.com/PaulPourtout/todo-list',
    githubRepo : 'todo-list',
@@ -66,7 +66,7 @@ const projects = [
 },
 {
    id: 8,
-   userId: 3, // le repo doit correspondre un utilisateur du tableau 'users'
+   userId: 9, // le repo doit correspondre un utilisateur du tableau 'users'
    name: 'To-do list project',
    githubUrl : 'https://github.com/PaulPourtout/todo-list',
    githubRepo : 'todo-list',
@@ -74,7 +74,7 @@ const projects = [
 },
 {
    id: 9,
-   userId: 0, // le repo doit correspondre un utilisateur du tableau 'users'
+   userId: 10, // le repo doit correspondre un utilisateur du tableau 'users'
    name: 'Bet & Go',
    githubUrl : 'https://github.com/PaulPourtout/Travel',
    githubRepo : 'Travel',

@@ -1,13 +1,19 @@
 // Configure express
 var express = require('express');
 var app = express();
+var chalk = require('chalk');
+var isomorphicFetch = require('isomorphic-fetch');
+isomorphicFetch();
+var promise = require('es6-promise');
+promise.polyfill();
 var port = process.env.PORT || 5000;
 // Import EJS
 var ejs = require('ejs');
 app.set('view engine', 'ejs');
 
 // Import data users
-var users = require('./model/data.js');
+var User = require('./model/schemas/users');
+// var users = require('./model/data.js');
 var formateurs = require('./model/formateurs.js');
 // var firebase = require('firebase');
 
@@ -37,22 +43,29 @@ var projects = require('./model/projects.js');
 
 // db.ref('users').on('value', (snapshot) => console.log(snapshot.val()));
 
+
 // Static route
 app.use(express.static(__dirname + '/public'));
-// Defining routes
-// app.get('/', function(req, res) {
-// 	res.send('Ceci est une Home Page (même si elle n\'en a pas l\'air).');
-// })
 
 // Building middleware
-var logError = function(err, req, res, next) {
-	if (err) console.log(err);
-	res.status(5000).send('error', {error: err});
+
+var logReqType = function(req, res, next) {
+	const dateNow = function now() {
+		const sec = new Date().getSeconds();
+		const min = new Date().getMinutes();
+		const hour = new Date().getHours();
+		const day = new Date().getDate();
+		const month = new Date().getMonth();
+		const year = new Date().getFullYear();
+		return `${hour}:${min}:${sec} ${day}/${month}/${year}`;
+	};
+	console.log(chalk.yellow('request method : ', req.method, ' url: ', req.url ,' at ', dateNow()));
+	next();
 };
 
 
-
-app.use(logError);
+// Calling Middleware
+app.use(logReqType);
 
 
 app.get('/', function(req, res) {
@@ -60,8 +73,25 @@ app.get('/', function(req, res) {
   res.render('./pages/index.ejs');
 })
 
+.get('/formulaire', function(req, res) {
+	res.render('./pages/formulaire.ejs');
+})
+
+.post('/formulaire', function(req, res) {
+	res.redirect('/');
+})
+
 .get('/users', function(req ,res) {
-	res.render('./pages/users.ejs', {users: users});
+	User.findAll({})
+	.then(user => {
+		return user.map(use => {
+			console.log(use.firstName);
+			return use;
+		});
+	})
+	.then(users => {
+		res.render('./pages/users.ejs', {users: users});
+	});
 })
 
 .get('/formateurs', function(req, res){
@@ -71,29 +101,67 @@ app.get('/', function(req, res) {
 	res.render('./pages/info-formateur.ejs', {teacher: formateurs[req.params.id]});
 	})
 
+
+// .get('/user/:id', function(req, res) {
+// 	// Check if user exists
+// 	const user = users.find( function(item) {
+// 		return item.id === Number(req.params.id);
+// 	});
+//
+// 	// If user existe
+// 	if (user) {
+// 	// Filter user projects in projects db
+// 	const projectsUser =
+// 		projects.filter(function(project){
+// 			return project.userId === user.id;
+// 		});
+// 	  // Call the user page
+// 	  res.render('./pages/user.ejs', {
+// 	    user: user,
+// 		projects: projectsUser
+// 	  });
+// 	}
+// 	// If user doesn't exists
+// 	else {
+// 		res.redirect('/error');
+// 	}
+// })
+
 .get('/user/:id', function(req, res) {
 	// Check if user exists
-	const user = users.find( function(item) {
-		return item.id === Number(req.params.id);
+	User.findAll({
+		where: {
+			id: req.params.id
+		}
+	})
+	.then(res => {
+		return res[0];
+	})
+	.then(user => {
+		// If user existe
+		if (user) {
+			// Call the user page
+			res.render('./pages/user.ejs', {
+				user: user
+			});
+		}
+		// If user doesn't exists
+		else {
+			res.redirect('/error');
+		}
 	});
 
-	// If user existe
-	if (user) {
-	// Filter user projects in projects db
-	const projectsUser =
-		projects.filter(function(project){
-			return project.userId === user.id;
-		});
-	  // Call the user page
-	  res.render('./pages/user.ejs', {
-	    user: user,
-		projects: projectsUser
-	  });
-	}
-	// If user doesn't exists
-	else {
-		res.redirect('/error');
-	}
+})
+
+
+.get('/user/:id/projects', function(req, res) {
+	const userProjects = projects.filter(function(project) {
+		return project.userId === users[req.params.id].id;
+	});
+	res.render('./pages/user-projects.ejs', {
+		user: users[req.params.id],
+		projects: userProjects
+	});
 })
 
 .get('/projects', function(req, res) {
@@ -107,6 +175,20 @@ app.get('/', function(req, res) {
 	res.render('./pages/project.ejs', {
 		project : project,
 		user: user
+	});
+})
+
+.get('/api/users', function(req, res) {
+	User.findAll({
+		// attributes: ["firstName"]
+	}).then(user => {
+		return user.map(use => {
+			console.log(use.firstName);
+			return use;
+		});
+	})
+	.then(users => {
+		res.json(users);
 	});
 })
 

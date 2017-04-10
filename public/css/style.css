@@ -102,7 +102,7 @@ header {
 	background-color: #38d062;
 	color: #fff;
 	padding: 10px 30px;
-	width: 200px;
+	min-width: 200px;
 	margin-bottom: 10px;
 	border-radius: 3px;
 	display: inline-block;
@@ -114,6 +114,10 @@ header {
 
 .btn:hover {
 	background-color: #16bb43;
+}
+
+.btn-light {
+	background-color: #82e69d;
 }
 
 

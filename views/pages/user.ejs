@@ -10,18 +10,15 @@
 		<%- include('../partials/header.ejs') %>
 	</header>
 	<section class="user-section">
+		<a class="btn btn-light" href='/users'>Retour aux utilisateurs</a>
 		<h2><%= user.firstName %></h2>
 		<div>
 			<h4>Voici son histoire :</h4>
 			<p><%= user.description %></p>
 		</div>
 		<div class="projects">
-			<h4>Voici ses projets</h4>
-			<ul class="users-list">
-				<% projects.map( function(project) { %>
-					<li><a href= <%= `/project/${project.id}` %> ><%= project.name %></a></li>
-				<% }).join('') %>
-			</ul>
+	
+			<a href= <%= `/user/${user.id}/projects` %> class="btn">Les projets de <%= user.firstName %></a>
 		</div>
 
 	</section>
