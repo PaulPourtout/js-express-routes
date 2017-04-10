@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head.ejs') %>
+</head>
+<body>
+  <header>
+    <%- include('../partials/header.ejs') %>
+  </header>
+  <section>
+    <h2>info de formateur</h2>
+
+      <p><%= teacher.prenom %></p>
+
+    <p><%= teacher.info %>
+      <a href="/formateurs">page de formateurs</a></p>
+      <p><%= teacher.address%></p>
+  </section>
+
+  <footer>
+    <%- include('../partials/footer.ejs') %>
+  </footer>
+
+</body>
+</html>
