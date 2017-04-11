@@ -4,7 +4,6 @@ const app = express();
 const chalk = require('chalk');
 const promise = require('es6-promise');
 promise.polyfill();
-const errorHandler = require('error-handler');
 const port = process.env.PORT || 5000;
 // Import EJS
 const ejs = require('ejs');
